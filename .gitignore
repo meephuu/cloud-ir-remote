@@ -1,0 +1,28 @@
+# ---------- STM32CubeIDE ----------
+stm32/**/Debug/
+stm32/**/Release/
+stm32/**/.settings/
+*.launch
+.metadata/
+RemoteSystemsTempFiles/
+
+# ---------- ESP32 (Arduino / PlatformIO) ----------
+esp32/**/build/
+.pio/
+# Wi-Fi passwords and Firebase keys: never commit. Copy secrets.example.h -> secrets.h
+secrets.h
+
+# ---------- Web ----------
+node_modules/
+dist/
+.firebase/
+.env
+.env.*
+!.env.example
+
+# ---------- Editors / OS ----------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
