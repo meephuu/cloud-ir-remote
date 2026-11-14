@@ -1,0 +1,69 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": false,
+
+    "codes": {
+      ".write": true,
+      "$codeId": {
+        ".validate": "newData.hasChildren(['name', 'timings'])",
+        "name": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40" },
+        "n": { ".validate": "newData.isNumber() && newData.val() > 0 && newData.val() <= 600" },
+        "timings": { ".validate": "newData.isString() && newData.val().length <= 4200" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
+      }
+    },
+
+    "commands": {
+      ".write": true,
+      ".indexOn": ["status", "createdAt"],
+      "$cmdId": {
+        ".validate": "newData.hasChildren(['type', 'status'])",
+        "type": { ".validate": "newData.isString() && newData.val().matches(/^(SEND|LEARN)$/)" },
+        "status": { ".validate": "newData.isString() && newData.val().matches(/^(pending|done|error)$/)" },
+        "codeId": { ".validate": "newData.isString()" },
+        "name": { ".validate": "newData.isString() && newData.val().length <= 40" },
+        "error": { ".validate": "newData.isString()" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "doneAt": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
+      }
+    },
+
+    "env": {
+      ".write": true,
+      "latest": {
+        ".validate": "newData.hasChildren(['temp', 'hum', 'ts'])",
+        "temp": { ".validate": "newData.isNumber()" },
+        "hum": { ".validate": "newData.isNumber()" },
+        "ts": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
+      },
+      "history": {
+        "$ts": {
+          ".validate": "$ts.matches(/^[0-9]{13}$/) && newData.hasChildren(['temp', 'hum'])",
+          "temp": { ".validate": "newData.isNumber()" },
+          "hum": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
+        }
+      },
+      "$other": { ".validate": false }
+    },
+
+    "rule": {
+      ".write": true,
+      ".validate": "newData.hasChildren(['threshold', 'enabled'])",
+      "threshold": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 60" },
+      "enabled": { ".validate": "newData.isBoolean()" },
+      "codeId": { ".validate": "newData.isString()" },
+      "$other": { ".validate": false }
+    },
+
+    "device": {
+      ".write": true,
+      "lastSeen": { ".validate": "newData.isNumber()" },
+      "$other": { ".validate": false }
+    }
+  }
+}
